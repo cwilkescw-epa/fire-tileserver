@@ -1,0 +1,34 @@
+version: "3.5"
+
+networks:
+  webapp:
+services:
+  web:
+    image: eeacms/varnish
+    container_name: ts_varnish
+    ports:
+      - '6081:6081'
+    environment:
+      BACKENDS: 'tileserv:7800'
+      DNS_ENABLED: 'false'
+      COOKIES: 'true'
+      PARAM_VALUE: '-p default_ttl=600'
+    networks:
+      - webapp
+    depends_on:
+      - tileserv
+    restart: unless-stopped
+    volumes:
+      - ./varnish/varnish.vcl:/etc/varnish/conf.d/varnish.vcl
+  tileserv:
+    image: pramsey/pg_tileserv
+    container_name: ts_tileserv
+    ports:
+      - '7800:7800'
+    networks:
+      - webapp
+    environment:
+      - DATABASE_URL=postgresql://epa_user:48TSj!4sm0k3yt3b4r@tileserver.cx7b6gvf3kxs.us-west-2.rds.amazonaws.com:5432/tileserver
+      - TS_DEBUG=false
+      - TS_CACHETTL=60
+    restart: unless-stopped
