@@ -28,7 +28,7 @@ services:
     networks:
       - webapp
     environment:
-      - DATABASE_URL=postgresql://epa_user:48TSj!4sm0k3yt3b4r@tileserver.cx7b6gvf3kxs.us-west-2.rds.amazonaws.com:5432/tileserver
+      - DATABASE_URL=postgresql://epa_user:12345678@tileserver.cx7b6gvf3kxs.us-west-2.rds.amazonaws.com:5432/tileserver
       - TS_DEBUG=false
       - TS_CACHETTL=60
     restart: unless-stopped
